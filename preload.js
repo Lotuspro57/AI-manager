@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('api', {
   onState: (cb) => ipcRenderer.on('state', (e, d) => cb(d)),
   onUsage: (cb) => ipcRenderer.on('usage', (e, d) => cb(d)),
   onEdit: (cb) => ipcRenderer.on('edit', (e, id) => cb(id)),
+  onPalette: (cb) => ipcRenderer.on('palette', () => cb()),
 
   // navigation
   open: (id) => ipcRenderer.send('open', id),
@@ -13,6 +14,7 @@ contextBridge.exposeInMainWorld('api', {
   reloadActive: () => ipcRenderer.send('reload-active'),
   // dir is 'back' or 'forward'
   nav: (dir) => ipcRenderer.send('nav', dir),
+  openExternal: () => ipcRenderer.send('open-external'),
 
   // zoom: dir is 'in', 'out' or 'reset'
   zoom: (dir) => ipcRenderer.send('zoom', dir),
@@ -25,6 +27,10 @@ contextBridge.exposeInMainWorld('api', {
 
   // right-click menu for a tab or tile
   contextMenu: (id) => ipcRenderer.send('context-menu', id),
+
+  // look and feel
+  setPref: (p) => ipcRenderer.send('pref', p),
+  overlay: (open) => ipcRenderer.send('overlay', !!open),
 
   // services and usage
   refreshUsage: (id) => ipcRenderer.send('refresh-usage', id),
